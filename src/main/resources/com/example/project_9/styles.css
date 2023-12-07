@@ -1,0 +1,28 @@
+.label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+}
+
+.text-field {
+    -fx-font-size: 14px;
+    -fx-prompt-text-fill: #999999;
+}
+
+.calculate-button {
+    -fx-background-color: #4CAF50; 
+    -fx-font-size: 14px;
+    -fx-text-fill: #ffffff;
+}
+
+.clear-button {
+    -fx-background-color: #FF5733;
+    -fx-font-size: 14px;
+    -fx-text-fill: #ffffff;
+}
+
+/* Style for Quit button */
+.quit-button {
+    -fx-background-color: #333333;
+    -fx-font-size: 14px;
+    -fx-text-fill: #ffffff;
+}
