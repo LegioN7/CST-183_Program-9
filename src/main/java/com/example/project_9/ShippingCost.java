@@ -91,6 +91,8 @@ public class ShippingCost extends Application {
     // The cost per mile to ship a product is 6 cents.
     // Final as this is not going to change
     private final double COST_PER_MILE = 0.06;
+    private static final int ZIP_CODE_LENGTH = 5;
+
     private DataManager dataManager;
 
     
@@ -140,17 +142,17 @@ public class ShippingCost extends Application {
                 "", "0", ""
         };
 
-        // Gridpane to center the numpad
-        // This didn't work but I don't really want to test it again
+        // Grid pane to center the numpad
+        // The alignment sets the numpad center to the window
         GridPane numPad = new GridPane();
         numPad.setAlignment(Pos.CENTER);
         numPad.setHgap(5);
         numPad.setVgap(5);
 
-        // This is the textfield that will hold the zip code
-        // It is not editable and will be updated by the number pad
+        // This is the text-field that will hold the zip code
+        // It was originally not editable but I changed my mind
         numPadField.setPrefColumnCount(5);
-        numPadField.setEditable(false);
+        numPadField.setEditable(true);
         GridPane.setConstraints(numPadField, 0, 0, 3, 1);
         
         numPad.getChildren().add(numPadField);
@@ -170,7 +172,7 @@ public class ShippingCost extends Application {
 
     // Using this to ensure the length is 5 digits
     private static void appendToNumPadField(TextField displayField, String digit) {
-        if (displayField.getText().length() < 5) {
+        if (displayField.getText().length() < ZIP_CODE_LENGTH ) {
             displayField.appendText(digit);
         }
     }
@@ -229,6 +231,8 @@ public class ShippingCost extends Application {
     // The string array approach was working
 
     private ComboBox<String> createShippingCenterComboBox() {
+        // the () were giving me an issue.
+        // I instead just placed the name and zipcode in the array
         String[] shippingCenters = {
                 "University Center 48710",
                 "Mackinaw City 49701",
@@ -318,7 +322,7 @@ public class ShippingCost extends Application {
     // Cannot be the same as the selected shipping center
     // Cannot be null
     private boolean isValidZipCode(String zipCode, ComboBox<String> shippingComboBox) {
-        if (zipCode.length() != 5) {
+        if (zipCode.length() != ZIP_CODE_LENGTH ) {
             showAlert("Invalid Zip Code", "Please enter a valid 5-digit Zip Code.");
             return false;
         }
@@ -350,7 +354,7 @@ public class ShippingCost extends Application {
         return zipCodeField;
     }
 
-    // Alert Base
+    // Alert Base instead of using JOPTION panes
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);

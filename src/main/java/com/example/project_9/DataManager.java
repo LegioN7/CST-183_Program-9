@@ -3,6 +3,8 @@ package com.example.project_9;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DataManager {
     // The array is fixed size, so we need to know the capacity
@@ -12,6 +14,14 @@ public class DataManager {
     final double RADIUS_EARTH = 3958.8;
     private final ZipCode[] zipCodeArray = new ZipCode[ARRAY_CAPACITY];
     private int size = 0;
+
+    // Testing some logging features I found on stackoverflow (see below)
+    // https://stackoverflow.com/questions/33779127/loggerfactory-getloggerclassname-class-vs-loggerfactory-getloggerthis-getclas
+    // https://stackoverflow.com/questions/194765/how-do-i-get-java-logging-output-to-appear-on-a-single-line
+    // https://www.geeksforgeeks.org/logger-getlogger-method-in-java-with-examples/
+    // 100% admitting I'm still learning this and when this is submitted I'll still be learning how this works but I wanted to know what the Robust Logging "Error" in IntelliJ was about and how to improve
+    private static final Logger LOGGER = Logger.getLogger(DataManager.class.getName());
+
 
     // This will pull in the data from the file "zipMIcity.txt"
     // The data is in the format of "48001 42.61500 -82.59780 MI Algonac"
@@ -25,19 +35,24 @@ public class DataManager {
                 zipCodeArray[size++] = zipCode;
 
                 // Debug: Output the data
-                // I'm going to leave in my debug code so you can see how I debugged this
-                // I was running into the data being exported correctly so I could compare the 2 locations
-                for  (int i = 0; i < size; i++) {
-                    System.out.println("#" + (i + 1) + " - " + zipCode.getCode() + " - " +
-                            zipCode.getLatitude() + ", " + zipCode.getLongitude() + " - " +
-                            zipCode.getState() + " - " + zipCode.getCity());
+                // Add a "#" next to each entry for debugging purposes
+                for (int i = 0; i < size; i++) {
+                    System.out.println("#" + (i + 1) + " - " + zipCodeArray[i].getCode() + " - " +
+                            zipCodeArray[i].getLatitude() + ", " + zipCodeArray[i].getLongitude() + " - " +
+                            zipCodeArray[i].getState() + " - " + zipCodeArray[i].getCity());
                 }
             }
             System.out.println("File found and read successfully: " + filePath);
         } catch (IOException e) {
             System.err.println("Error reading file: " + filePath);
-            e.printStackTrace();
+            // Enhanced logging for IOException
+            zipCodeDataLogging(e);
         }
+    }
+
+    // See logging comment
+    private void zipCodeDataLogging(IOException e) {
+        LOGGER.log(Level.SEVERE, "IOException Details:", e);
     }
 
     // This will search the array for the zip code
